@@ -199,6 +199,17 @@ const tailwindConfig = {
       current: 'currentColor',
       ...colors,
       body: slateDark.slate7,
+      // Cores customizadas Agência Lendária
+      'agencia': {
+        'accent': '#D4C09A',
+        'accent-text': '#1C1C1C',
+      },
+      'dark': {
+        'bg': '#1C1C1C',
+        'surface': '#2C2C2C',
+        'text-primary': '#F0F0F0',
+        'text-secondary': '#A0A0A0',
+      },
     },
     keyframes: {
       ...defaultTheme.keyframes,
