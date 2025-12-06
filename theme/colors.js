@@ -13,21 +13,28 @@ const {
   violetDark,
 } = require('@radix-ui/colors');
 
+// 1. Cor da marca aqui
+const brand = '#D8B686';
+
 export const colors = {
+  // O Chatwoot usa a paleta 'woot' para os botões principais.
+  // Substituímos as referências de azul pelos HEX da sua escala Dourada.
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: '#FDFCF8',  // Baseado no --blue-1
+    50: '#FBF8F1',  // Baseado no --blue-2
+    75: '#F5F0E4',  // Baseado no --blue-3
+    100: '#EEE6D5', // Baseado no --blue-4
+    200: '#E6DCC5', // Baseado no --blue-5
+    300: '#DDD0B4', // Baseado no --blue-6
+    400: '#D2C3A3', // Baseado no --blue-7 (Bordas)
+    500: '#D8B686', // Baseado no --blue-9 (COR PRINCIPAL DO BOTÃO)
+    600: '#C9A97B', // Baseado no --blue-10 (HOVER)
+    700: '#8C6432', // Baseado no --blue-11 (Texto forte)
+    800: '#3C2814', // Baseado no --blue-12
+    900: '#16120C', // Tom mais escuro
   },
+
+  // As outras paletas (green, yellow, etc) mantemos do Radix padrão
   green: {
     50: greenDark.green12,
     100: green.green6,
@@ -103,7 +110,10 @@ export const colors = {
     900: violet.violet12,
   },
 
-  // next design system color
+  // 3. NEXT DESIGN SYSTEM COLOR
+  // Como você manteve RGB no SCSS, essa parte DEVE ficar assim.
+  // O código 'rgb(var(--blue-1) / <alpha-value>)' vai pegar os números
+  // do seu SCSS e aplicar a transparência corretamente.
   n: {
     slate: {
       1: 'rgb(var(--slate-1) / <alpha-value>)',
@@ -211,7 +221,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: brand,
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
