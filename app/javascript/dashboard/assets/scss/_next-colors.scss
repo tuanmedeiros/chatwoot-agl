@@ -29,7 +29,7 @@
     --iris-11: 87 83 198;
     --iris-12: 39 41 98;
 
-    // blue -> TRANSFORMADO EM GOLD PARA A MARCA
+    // blue -> TRANSFORMADO EM NOVO GOLD ESCURO (#C4934F)
     // Escala Dourada para Light Mode
     --blue-1: 253 252 248;
     --blue-2: 251 248 241;
@@ -39,8 +39,8 @@
     --blue-6: 221 208 180;
     --blue-7: 210 195 163;
     --blue-8: 196 179 145;
-    --blue-9: 216 182 134; // #D8B686 (Cor Principal)
-    --blue-10: 201 169 123;
+    --blue-9: 196 147 79;   // #C4934F (Nova Cor Principal)
+    --blue-10: 176 132 70;  // #B08446 (Hover mais escuro)
     --blue-11: 140 100 50;  // Texto contrastante em fundo claro
     --blue-12: 60 40 20;
 
@@ -97,7 +97,7 @@
     --gray-12: 32 32 32;
 
     --background-color: 253 253 253;
-    --text-blue: 140 100 50; // Ajustado para tom dourado escuro no light mode
+    --text-blue: 196 147 79;         // #C4934F (Texto principal) Ajustado para tom dourado escuro no light mode
     --border-container: 236 236 236;
     --border-strong: 235 235 235;
     --border-weak: 234 234 234;
@@ -114,7 +114,7 @@
     --alpha-3: 255, 255, 255, 0.96;
     --black-alpha-1: 0, 0, 0, 0.12;
     --black-alpha-2: 0, 0, 0, 0.04;
-    --border-blue: 216, 182, 134, 0.5; // Dourado com transparência
+    --border-blue: 196, 147, 79, 0.5; // Dourado com transparência
     --white-alpha: 255, 255, 255, 0.8;
   }
 
@@ -148,7 +148,7 @@
 
     // blue -> TRANSFORMADO EM GOLD (#D8B686)
     // Escala construída para fundo escuro
-    --blue-1: 22 18 12;     // Fundo muito escuro tintado de ouro
+    --blue-1: 22 18 12;
     --blue-2: 29 24 15;
     --blue-3: 42 32 20;
     --blue-4: 63 39 0;
@@ -156,8 +156,8 @@
     --blue-6: 92 61 5;
     --blue-7: 113 79 25;
     --blue-8: 143 100 36;
-    --blue-9: 216 182 134;  // #D8B686 (Cor Principal/Botões)
-    --blue-10: 226 194 148; // Hover
+    --blue-9: 196 147 79;   // #C4934F (Cor Principal)
+    --blue-10: 210 160 90;  // Hover no dark mode (levemente mais claro para brilho)
     --blue-11: 236 206 162;
     --blue-12: 247 235 214; // Texto muito claro
 
@@ -223,14 +223,14 @@
     --solid-amber: 42 37 30;
     --solid-blue: 63 39 0;         // Fundo ativo dourado escuro
     --solid-iris: 38 42 101;
-    --text-blue: 216 182 134;      // #D8B686 (Links e textos de destaque)
+    --text-blue: 196 147 79; // #C4934F (Links e textos de destaque)
 
     --alpha-1: 36, 36, 36, 0.8;
     --alpha-2: 139, 147, 182, 0.15;
     --alpha-3: 36, 38, 45, 0.9;
     --black-alpha-1: 0, 0, 0, 0.3;
     --black-alpha-2: 0, 0, 0, 0.2;
-    --border-blue: 216, 182, 134, 0.5; // Borda dourada
+    --border-blue: 196, 147, 79, 0.5; // Borda dourada
     --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
   }

@@ -14,24 +14,25 @@ const {
 } = require('@radix-ui/colors');
 
 // 1. Cor da marca aqui
-const brand = '#D8B686';
+const brand = '#C4934F'; // Novo Dourado Escuro
 
 export const colors = {
   // O Chatwoot usa a paleta 'woot' para os botões principais.
   // Substituímos as referências de azul pelos HEX da sua escala Dourada.
   woot: {
-    25: '#FDFCF8',  // Baseado no --blue-1
-    50: '#FBF8F1',  // Baseado no --blue-2
-    75: '#F5F0E4',  // Baseado no --blue-3
-    100: '#EEE6D5', // Baseado no --blue-4
-    200: '#E6DCC5', // Baseado no --blue-5
-    300: '#DDD0B4', // Baseado no --blue-6
-    400: '#D2C3A3', // Baseado no --blue-7 (Bordas)
-    500: '#D8B686', // Baseado no --blue-9 (COR PRINCIPAL DO BOTÃO)
-    600: '#C9A97B', // Baseado no --blue-10 (HOVER)
-    700: '#8C6432', // Baseado no --blue-11 (Texto forte)
-    800: '#3C2814', // Baseado no --blue-12
-    900: '#16120C', // Tom mais escuro
+    25: '#FDFCF8',
+    50: '#FBF8F1',
+    75: '#F5F0E4',
+    100: '#EEE6D5',
+    200: '#E6DCC5',
+    300: '#DDD0B4',
+    400: '#D2C3A3',
+    // 2. ATUALIZE OS PRINCIPAIS PONTOS DA ESCALA
+    500: '#C4934F', // --blue-9 (Cor Principal do Botão)
+    600: '#B08446', // --blue-10 (Hover - um pouco mais escuro/queimado)
+    700: '#8C6432', // --blue-11 (Texto forte)
+    800: '#3C2814', // --blue-12
+    900: '#16120C',
   },
 
   // As outras paletas (green, yellow, etc) mantemos do Radix padrão
