@@ -8,5 +8,9 @@ class Crm::CrmRecord < ActiveRecord::Base
     "crm_#{Rails.env}".to_sym
   end
 
-  establish_connection crm_database_config
+  # Only establish connection if CRM database is configured
+  # This allows Docker builds and environments without CRM to work properly
+  if ENV['CRM_DATABASE_URL'].present? || ENV['CRM_POSTGRES_HOST'].present?
+    establish_connection crm_database_config
+  end
 end
