@@ -179,6 +179,32 @@ Rails.application.routes.draw do
               resources :notes
             end
           end
+
+          # CRM Kanban routes
+          namespace :crm do
+            resources :pipelines do
+              member do
+                post :duplicate
+                patch :set_default
+              end
+              resources :stages do
+                collection do
+                  post :reorder
+                end
+              end
+            end
+            resources :deals do
+              member do
+                patch :move
+                patch :won
+                patch :lost
+                get :activities
+              end
+              collection do
+                get :summary
+              end
+            end
+          end
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics

@@ -1,0 +1,65 @@
+{
+  "SIDEBAR": {
+    "CRM": "CRM Kanban"
+  },
+  "CRM": {
+    "TITLE": "CRM",
+    "SIDEBAR": {
+      "TITLE": "CRM",
+      "KANBAN": "Kanban"
+    },
+    "KANBAN": {
+      "PIPELINE": "Pipeline",
+      "ADD_STAGE": "Add Stage",
+      "ADD_DEAL": "Add Deal"
+    },
+    "PIPELINE": {
+      "NEW": "New Pipeline",
+      "NAME_PROMPT": "Enter pipeline name:",
+      "CREATE": "Create Pipeline",
+      "EDIT": "Edit Pipeline",
+      "DELETE": "Delete Pipeline",
+      "DUPLICATE": "Duplicate Pipeline",
+      "SET_DEFAULT": "Set as Default"
+    },
+    "DEAL_FORM": {
+      "CREATE_TITLE": "New Deal",
+      "EDIT_TITLE": "Edit Deal",
+      "TITLE": "Title",
+      "TITLE_PLACEHOLDER": "Enter deal title",
+      "CONTACT_ID": "Contact ID",
+      "CONTACT_ID_PLACEHOLDER": "Enter contact ID",
+      "VALUE": "Value",
+      "CURRENCY": "Currency",
+      "STAGE": "Stage",
+      "EXPECTED_CLOSE_DATE": "Expected Close Date",
+      "CREATE": "Create Deal",
+      "UPDATE": "Update Deal",
+      "CANCEL": "Cancel"
+    },
+    "STAGE_FORM": {
+      "CREATE_TITLE": "New Stage",
+      "EDIT_TITLE": "Edit Stage",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "Enter stage name",
+      "COLOR": "Color",
+      "TYPE": "Stage Type",
+      "TYPE_ACTIVE": "Active",
+      "TYPE_WON": "Won",
+      "TYPE_LOST": "Lost",
+      "CREATE": "Create Stage",
+      "UPDATE": "Update Stage",
+      "CANCEL": "Cancel"
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No pipelines yet",
+      "DESCRIPTION": "Create your first pipeline to start managing deals",
+      "CREATE_PIPELINE": "Create Pipeline"
+    },
+    "STATUS": {
+      "OPEN": "Open",
+      "WON": "Won",
+      "LOST": "Lost"
+    }
+  }
+}

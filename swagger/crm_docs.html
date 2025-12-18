@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Kanban API - Documentacao</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css">
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow-y: scroll;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+        .swagger-ui .topbar {
+            background-color: #1a1a2e;
+        }
+        .swagger-ui .topbar .download-url-wrapper .select-label {
+            color: #fff;
+        }
+        .swagger-ui .info .title {
+            color: #1a1a2e;
+        }
+        .swagger-ui .opblock.opblock-get .opblock-summary-method {
+            background: #61affe;
+        }
+        .swagger-ui .opblock.opblock-post .opblock-summary-method {
+            background: #49cc90;
+        }
+        .swagger-ui .opblock.opblock-put .opblock-summary-method {
+            background: #fca130;
+        }
+        .swagger-ui .opblock.opblock-delete .opblock-summary-method {
+            background: #f93e3e;
+        }
+        .swagger-ui .opblock.opblock-patch .opblock-summary-method {
+            background: #50e3c2;
+        }
+        /* Custom header */
+        .custom-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 20px 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .custom-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .custom-header .badge {
+            background: #ffc107;
+            color: #1a1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-header">
+        <h1>CRM Kanban API Documentation</h1>
+        <span class="badge">v1.0.0</span>
+    </div>
+    <div id="swagger-ui"></div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function() {
+            // Voce pode usar uma URL externa ou o JSON inline
+            // Opcao A: Carregar de uma URL
+            // const specUrl = 'https://seu-site.com/api/crm_swagger.json';
+
+            // Opcao B: JSON inline (cole o conteudo do crm_swagger.json aqui)
+            const spec = SWAGGER_JSON_PLACEHOLDER;
+
+            const ui = SwaggerUIBundle({
+                // Usar spec para JSON inline ou url para carregar de URL
+                spec: spec,
+                // url: specUrl,
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout",
+                defaultModelsExpandDepth: 1,
+                defaultModelExpandDepth: 1,
+                displayRequestDuration: true,
+                filter: true,
+                showExtensions: true,
+                showCommonExtensions: true,
+                tryItOutEnabled: true
+            });
+
+            window.ui = ui;
+        };
+    </script>
+</body>
+</html>

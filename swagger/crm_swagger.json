@@ -1,0 +1,1331 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Chatwoot CRM API",
+    "description": "API documentation for Chatwoot CRM Kanban module. This module provides endpoints to manage sales pipelines, stages, and deals.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Agência Lendária",
+      "email": "contato@agencialendaria.com.br"
+    }
+  },
+  "servers": [
+    {
+      "url": "{protocol}://{host}",
+      "variables": {
+        "protocol": {
+          "default": "https",
+          "enum": ["http", "https"]
+        },
+        "host": {
+          "default": "app.chatwoot.com"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pipelines",
+      "description": "Manage sales pipelines (funnels)"
+    },
+    {
+      "name": "Stages",
+      "description": "Manage pipeline stages (kanban columns)"
+    },
+    {
+      "name": "Deals",
+      "description": "Manage deals (opportunities/cards)"
+    }
+  ],
+  "paths": {
+    "/api/v1/accounts/{account_id}/crm/pipelines": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": ["Pipelines"],
+        "operationId": "listPipelines",
+        "summary": "List all pipelines",
+        "description": "Returns a list of all pipelines for the account with their stages",
+        "security": [
+          { "userApiKey": [] },
+          { "agentBotApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipelines_list_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Pipelines"],
+        "operationId": "createPipeline",
+        "summary": "Create a pipeline",
+        "description": "Create a new sales pipeline",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pipeline_create_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipeline_response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" }
+      ],
+      "get": {
+        "tags": ["Pipelines"],
+        "operationId": "getPipeline",
+        "summary": "Get a pipeline",
+        "description": "Returns a single pipeline with its stages",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipeline_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Pipelines"],
+        "operationId": "updatePipeline",
+        "summary": "Update a pipeline",
+        "description": "Update an existing pipeline",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pipeline_update_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipeline_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pipelines"],
+        "operationId": "deletePipeline",
+        "summary": "Delete a pipeline",
+        "description": "Delete a pipeline (only if it has no deals)",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "422": {
+            "description": "Cannot delete - pipeline has deals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}/duplicate": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" }
+      ],
+      "post": {
+        "tags": ["Pipelines"],
+        "operationId": "duplicatePipeline",
+        "summary": "Duplicate a pipeline",
+        "description": "Create a copy of the pipeline with all its stages",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "201": {
+            "description": "Duplicated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipeline_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}/set_default": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" }
+      ],
+      "patch": {
+        "tags": ["Pipelines"],
+        "operationId": "setDefaultPipeline",
+        "summary": "Set pipeline as default",
+        "description": "Mark this pipeline as the default one for the account",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pipeline_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}/stages": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" }
+      ],
+      "get": {
+        "tags": ["Stages"],
+        "operationId": "listStages",
+        "summary": "List pipeline stages",
+        "description": "Returns all stages for a pipeline ordered by position",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stages_list_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Stages"],
+        "operationId": "createStage",
+        "summary": "Create a stage",
+        "description": "Create a new stage in the pipeline",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stage_create_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stage_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}/stages/{stage_id}": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" },
+        { "$ref": "#/components/parameters/stage_id" }
+      ],
+      "get": {
+        "tags": ["Stages"],
+        "operationId": "getStage",
+        "summary": "Get a stage",
+        "description": "Returns a single stage",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stage_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Stages"],
+        "operationId": "updateStage",
+        "summary": "Update a stage",
+        "description": "Update stage properties",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stage_update_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stage_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Stages"],
+        "operationId": "deleteStage",
+        "summary": "Delete a stage",
+        "description": "Delete a stage (only if it has no deals)",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "422": {
+            "description": "Cannot delete - stage has deals"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/pipelines/{pipeline_id}/stages/reorder": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/pipeline_id" }
+      ],
+      "post": {
+        "tags": ["Stages"],
+        "operationId": "reorderStages",
+        "summary": "Reorder stages",
+        "description": "Update the position of multiple stages at once (drag & drop)",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/stages_reorder_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/stages_list_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" }
+      ],
+      "get": {
+        "tags": ["Deals"],
+        "operationId": "listDeals",
+        "summary": "List deals",
+        "description": "Returns deals for the current user (agents see only their own deals)",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "query",
+            "description": "Filter by pipeline",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "stage_id",
+            "in": "query",
+            "description": "Filter by stage",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by status",
+            "schema": {
+              "type": "string",
+              "enum": ["open", "won", "lost"]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": { "type": "integer", "default": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deals_list_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Deals"],
+        "operationId": "createDeal",
+        "summary": "Create a deal",
+        "description": "Create a new deal. The assignee will be the current user.",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deal_create_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/{deal_id}": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/deal_id" }
+      ],
+      "get": {
+        "tags": ["Deals"],
+        "operationId": "getDeal",
+        "summary": "Get a deal",
+        "description": "Returns a single deal with stage info",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Deals"],
+        "operationId": "updateDeal",
+        "summary": "Update a deal",
+        "description": "Update deal properties",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deal_update_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Deals"],
+        "operationId": "deleteDeal",
+        "summary": "Delete a deal",
+        "description": "Delete a deal permanently",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/{deal_id}/move": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/deal_id" }
+      ],
+      "patch": {
+        "tags": ["Deals"],
+        "operationId": "moveDeal",
+        "summary": "Move deal to another stage",
+        "description": "Move a deal to a different stage (drag & drop). Status is automatically updated based on stage type.",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/deal_move_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/{deal_id}/won": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/deal_id" }
+      ],
+      "patch": {
+        "tags": ["Deals"],
+        "operationId": "markDealAsWon",
+        "summary": "Mark deal as won",
+        "description": "Mark the deal as won. Moves to the 'won' stage automatically.",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/{deal_id}/lost": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/deal_id" }
+      ],
+      "patch": {
+        "tags": ["Deals"],
+        "operationId": "markDealAsLost",
+        "summary": "Mark deal as lost",
+        "description": "Mark the deal as lost. Optionally provide a reason.",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "description": "Reason for losing the deal",
+                    "example": "Price too high"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/{deal_id}/activities": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" },
+        { "$ref": "#/components/parameters/deal_id" }
+      ],
+      "get": {
+        "tags": ["Deals"],
+        "operationId": "getDealActivities",
+        "summary": "Get deal activity history",
+        "description": "Returns the activity log for a deal (stage changes, updates, etc.)",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deal_activities_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/crm/deals/summary": {
+      "parameters": [
+        { "$ref": "#/components/parameters/account_id" }
+      ],
+      "get": {
+        "tags": ["Deals"],
+        "operationId": "getDealsSummary",
+        "summary": "Get deals summary by stage",
+        "description": "Returns aggregated data (count and total value) for each stage in a pipeline",
+        "security": [
+          { "userApiKey": [] }
+        ],
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "query",
+            "required": true,
+            "description": "Pipeline ID to get summary for",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deals_summary_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "userApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_access_token",
+        "description": "User API key from profile settings"
+      },
+      "agentBotApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_access_token",
+        "description": "Agent bot API key"
+      }
+    },
+    "parameters": {
+      "account_id": {
+        "name": "account_id",
+        "in": "path",
+        "required": true,
+        "description": "The numeric ID of the account",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "pipeline_id": {
+        "name": "pipeline_id",
+        "in": "path",
+        "required": true,
+        "description": "The numeric ID of the pipeline",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "stage_id": {
+        "name": "stage_id",
+        "in": "path",
+        "required": true,
+        "description": "The numeric ID of the stage",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "deal_id": {
+        "name": "deal_id",
+        "in": "path",
+        "required": true,
+        "description": "The numeric ID of the deal",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "schemas": {
+      "error_response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Error message"
+          }
+        }
+      },
+      "pipeline": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Sales Pipeline"
+          },
+          "description": {
+            "type": "string",
+            "example": "Main sales funnel"
+          },
+          "is_default": {
+            "type": "boolean",
+            "example": true
+          },
+          "position": {
+            "type": "integer",
+            "example": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/stage"
+            }
+          }
+        }
+      },
+      "pipeline_create_request": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sales Pipeline",
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string",
+            "example": "Main sales funnel"
+          },
+          "is_default": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "pipeline_update_request": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sales Pipeline",
+            "maxLength": 255
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "position": {
+            "type": "integer"
+          }
+        }
+      },
+      "pipeline_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/pipeline"
+          }
+        }
+      },
+      "pipelines_list_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pipeline"
+            }
+          }
+        }
+      },
+      "stage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "pipeline_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "New Lead"
+          },
+          "color": {
+            "type": "string",
+            "example": "#6366f1",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "position": {
+            "type": "integer",
+            "example": 0
+          },
+          "is_won": {
+            "type": "boolean",
+            "example": false
+          },
+          "is_lost": {
+            "type": "boolean",
+            "example": false
+          },
+          "deals_count": {
+            "type": "integer",
+            "example": 5
+          },
+          "deals_total_value": {
+            "type": "number",
+            "example": 15000.00
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "stage_create_request": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "New Lead",
+            "maxLength": 255
+          },
+          "color": {
+            "type": "string",
+            "example": "#6366f1",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "is_won": {
+            "type": "boolean",
+            "default": false,
+            "description": "Mark as 'won' closing stage"
+          },
+          "is_lost": {
+            "type": "boolean",
+            "default": false,
+            "description": "Mark as 'lost' closing stage"
+          }
+        }
+      },
+      "stage_update_request": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "is_won": {
+            "type": "boolean"
+          },
+          "is_lost": {
+            "type": "boolean"
+          }
+        }
+      },
+      "stage_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/stage"
+          }
+        }
+      },
+      "stages_list_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/stage"
+            }
+          }
+        }
+      },
+      "stages_reorder_request": {
+        "type": "object",
+        "required": ["stages"],
+        "properties": {
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "position"],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "position": {
+                  "type": "integer",
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "deal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "account_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "pipeline_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "stage_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "contact_id": {
+            "type": "integer",
+            "example": 123
+          },
+          "assignee_id": {
+            "type": "integer",
+            "example": 5
+          },
+          "title": {
+            "type": "string",
+            "example": "Enterprise Deal"
+          },
+          "value": {
+            "type": "number",
+            "example": 5000.00
+          },
+          "currency": {
+            "type": "string",
+            "example": "BRL",
+            "enum": ["BRL", "USD", "EUR", "GBP"]
+          },
+          "expected_close_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-02-28"
+          },
+          "position": {
+            "type": "integer",
+            "example": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": ["open", "won", "lost"],
+            "example": "open"
+          },
+          "lost_reason": {
+            "type": "string",
+            "example": "Price too high"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "example": {}
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "closed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/stage"
+          }
+        }
+      },
+      "deal_create_request": {
+        "type": "object",
+        "required": ["pipeline_id", "stage_id", "contact_id", "title"],
+        "properties": {
+          "pipeline_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "stage_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "contact_id": {
+            "type": "integer",
+            "example": 123,
+            "description": "ID of the contact from Chatwoot"
+          },
+          "title": {
+            "type": "string",
+            "example": "Enterprise Deal",
+            "maxLength": 255
+          },
+          "value": {
+            "type": "number",
+            "example": 5000.00
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["BRL", "USD", "EUR", "GBP"],
+            "default": "BRL"
+          },
+          "expected_close_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "custom_attributes": {
+            "type": "object"
+          }
+        }
+      },
+      "deal_update_request": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "value": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["BRL", "USD", "EUR", "GBP"]
+          },
+          "expected_close_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "custom_attributes": {
+            "type": "object"
+          }
+        }
+      },
+      "deal_move_request": {
+        "type": "object",
+        "required": ["stage_id"],
+        "properties": {
+          "stage_id": {
+            "type": "integer",
+            "example": 2,
+            "description": "Target stage ID"
+          },
+          "position": {
+            "type": "integer",
+            "example": 0,
+            "description": "Position within the stage (optional)"
+          }
+        }
+      },
+      "deal_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/deal"
+          }
+        }
+      },
+      "deals_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer",
+                "example": 25
+              },
+              "current_page": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/deal"
+            }
+          }
+        }
+      },
+      "deal_activity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "deal_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 5
+          },
+          "activity_type": {
+            "type": "string",
+            "enum": ["created", "updated", "stage_changed", "status_changed", "assignee_changed", "value_changed"],
+            "example": "stage_changed"
+          },
+          "previous_value": {
+            "type": "object",
+            "example": { "stage_id": 1 }
+          },
+          "new_value": {
+            "type": "object",
+            "example": { "stage_id": 2 }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "deal_activities_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/deal_activity"
+            }
+          }
+        }
+      },
+      "deals_summary_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stage_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "stage_name": {
+                  "type": "string",
+                  "example": "New Lead"
+                },
+                "stage_color": {
+                  "type": "string",
+                  "example": "#6366f1"
+                },
+                "deals_count": {
+                  "type": "integer",
+                  "example": 5
+                },
+                "total_value": {
+                  "type": "number",
+                  "example": 25000.00
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

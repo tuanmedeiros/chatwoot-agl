@@ -1,0 +1,11 @@
+json.id stage.id
+json.pipeline_id stage.pipeline_id
+json.name stage.name
+json.color stage.color
+json.position stage.position
+json.is_won stage.is_won
+json.is_lost stage.is_lost
+json.deals_count stage.deals_count
+json.deals_total_value stage.deals_total_value
+json.created_at stage.created_at
+json.updated_at stage.updated_at
