@@ -37,8 +37,8 @@ crm_default: &crm_default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
-  # Supabase connection string parsing
-  url: "<%= ENV.fetch('CRM_DATABASE_URL', nil) %>"
+  # Supabase connection string parsing - must be nil (not empty string) when not set
+  url: <%= ENV['CRM_DATABASE_URL'] %>
   # Fallback to individual params if URL not provided
   host: "<%= ENV.fetch('CRM_POSTGRES_HOST', 'aws-0-sa-east-1.pooler.supabase.com') %>"
   port: <%= ENV.fetch('CRM_POSTGRES_PORT', '6543') %>
