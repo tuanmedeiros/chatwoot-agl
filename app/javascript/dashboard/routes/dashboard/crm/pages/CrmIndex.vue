@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 import KanbanBoard from 'dashboard/components-next/Crm/KanbanBoard.vue';
 import PipelineSelector from 'dashboard/components-next/Crm/PipelineSelector.vue';
 import DealForm from 'dashboard/components-next/Crm/DealForm.vue';
