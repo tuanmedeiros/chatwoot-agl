@@ -104,3 +104,7 @@ CLAUDE.local.md
 # Modifications backups
 .new_style_by_agencia_lendaria/
 *_backup
+
+# MacOs
+**/.DS_Store
+
