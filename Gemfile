@@ -36,6 +36,9 @@ gem 'commonmarker'
 gem 'json_schemer'
 # used in swagger build
 gem 'json_refs'
+# rswag for auto-generating OpenAPI/Swagger from RSpec tests
+gem 'rswag-api'
+gem 'rswag-ui'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
@@ -253,6 +256,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
+  gem 'rswag-specs'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
