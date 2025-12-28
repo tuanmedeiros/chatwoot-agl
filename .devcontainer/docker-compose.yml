@@ -14,8 +14,8 @@ services:
         NODE_VERSION: '23.7.0'
         RUBY_VERSION: '3.4.4'
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
-        USER_UID: '1000'
-        USER_GID: '1000'
+        USER_UID: '501'
+        USER_GID: '20'
 
     volumes:
       - ..:/workspace:cached
